@@ -1,0 +1,248 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: user-service}
+  template:
+    metadata:
+      labels: {app: user-service}
+    spec:
+      containers:
+      - name: user-service
+        image: ai-ecommerce-user-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8001}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: user-service}
+  ports: [{port: 8001, targetPort: 8001}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: product-service}
+  template:
+    metadata:
+      labels: {app: product-service}
+    spec:
+      containers:
+      - name: product-service
+        image: ai-ecommerce-product-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8002}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: product-service}
+  ports: [{port: 8002, targetPort: 8002}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: order-service}
+  template:
+    metadata:
+      labels: {app: order-service}
+    spec:
+      containers:
+      - name: order-service
+        image: ai-ecommerce-order-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8003}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: order-service}
+  ports: [{port: 8003, targetPort: 8003}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: inventory-service}
+  template:
+    metadata:
+      labels: {app: inventory-service}
+    spec:
+      containers:
+      - name: inventory-service
+        image: ai-ecommerce-inventory-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8004}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: inventory-service}
+  ports: [{port: 8004, targetPort: 8004}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: recommendation-service}
+  template:
+    metadata:
+      labels: {app: recommendation-service}
+    spec:
+      containers:
+      - name: recommendation-service
+        image: ai-ecommerce-recommendation-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8005}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recommendation-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: recommendation-service}
+  ports: [{port: 8005, targetPort: 8005}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: ai-service}
+  template:
+    metadata:
+      labels: {app: ai-service}
+    spec:
+      containers:
+      - name: ai-service
+        image: ai-ecommerce-ai-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8006}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-service
+  namespace: ai-ecommerce
+spec:
+  selector: {app: ai-service}
+  ports: [{port: 8006, targetPort: 8006}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: api-gateway}
+  template:
+    metadata:
+      labels: {app: api-gateway}
+    spec:
+      containers:
+      - name: api-gateway
+        image: ai-ecommerce-api-gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8000}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: ai-ecommerce
+spec:
+  selector: {app: api-gateway}
+  ports: [{port: 8000, targetPort: 8000}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: frontend}
+  template:
+    metadata:
+      labels: {app: frontend}
+    spec:
+      containers:
+      - name: frontend
+        image: ai-ecommerce-frontend:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8501}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: ai-ecommerce
+spec:
+  selector: {app: frontend}
+  ports: [{port: 8501, targetPort: 8501}]

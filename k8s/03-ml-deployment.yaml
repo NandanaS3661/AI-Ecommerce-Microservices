@@ -1,0 +1,22 @@
+# Separate ML workload manifest for the TF-IDF recommendation model service.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-ml
+  namespace: ai-ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: recommendation-ml}
+  template:
+    metadata:
+      labels: {app: recommendation-ml}
+    spec:
+      containers:
+      - name: recommendation-ml
+        image: ai-ecommerce-recommendation-service:latest
+        imagePullPolicy: IfNotPresent
+        ports: [{containerPort: 8005}]
+        envFrom:
+        - configMapRef: {name: app-config}
+        - secretRef: {name: db-secret}
